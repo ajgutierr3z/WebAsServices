@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 
 // 2. Permitir que cualquier aplicación acceda a esta API (CORS)
 header("Access-Control-Allow-Origin: *");
-
+//aquí debería de ir las modificaciones que se vayan realizando...
 // 3. Crear el mensaje de "Hola Mundo"
 $respuesta = [
     "status" => "success",
