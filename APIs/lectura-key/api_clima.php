@@ -17,7 +17,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
 
 $respuesta = curl_exec($ch);
-curl_close($ch);
+
 
 // Imprimimos el JSON tal cual nos lo entregó OpenWeather
 echo $respuesta;
