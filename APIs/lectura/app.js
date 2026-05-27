@@ -12,7 +12,7 @@ async function cargarDatos() {
 
         // Iterar y filtrar solo los que están "Alive"
         datos.results.forEach(personaje => {
-            if (personaje.status === 'Alive') {
+            if (personaje.status === 'Dead') {
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'tarjeta';
                 tarjeta.innerHTML = `
