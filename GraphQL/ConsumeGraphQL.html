@@ -81,9 +81,9 @@
 
   <div class="centrar" style="margin-bottom: 20px;">
     <button class="boton" id="btn-vivos" onclick="vivos()">Vivos</button>
-    <button class="boton" id="btn-muertos" onclick="muestos()">Muertos</button>
+    <button class="boton" id="btn-muertos" onclick="muertos()">Muertos</button>
     <button class="boton" id="btn-desc" onclick="desc()">Desconocido</button>
-    <button class="boton" id="btn-todos" onclick="todos()">Todos</button>
+    <button class="boton" id="btn-todos" onclick="todo()">Todos</button>
   </div>
   <div id="contenedor-personajes" class="grid"></div>
 
@@ -163,14 +163,14 @@
     }
 
     function desc() {
-      dibujar = "Unknown";
+      dibujar = "unknown";
       todos = false;
       const contenedor = document.getElementById("contenedor-personajes");
       contenedor.innerHTML = "";
       pintarPersonajes();  
     }
 
-    function todos() {
+    function todo() {
       dibujar = "todos";
       todos = true;
       const contenedor = document.getElementById("contenedor-personajes");
