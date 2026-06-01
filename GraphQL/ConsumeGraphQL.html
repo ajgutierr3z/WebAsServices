@@ -7,15 +7,19 @@
   <style>
     /* Un CSS rápido para que se vea genial */
     body {
-      background-color: #202329;
+      background-color: rgb(221, 216, 216);
       color: white;
       font-family: sans-serif;
       margin: 0;
       padding: 20px;
     }
     h1 {
+      display: inline-block;      
+      background-color: white;
+      padding: 15px;
+      border-radius: 20px;
       text-align: center;
-      color: #00ff97;
+      color: black;
     }
     .grid {
       display: grid;
@@ -25,7 +29,7 @@
       margin: 0 auto;
     }
     .tarjeta {
-      background-color: #3c3e44;
+      /*background-color: #3c3e44;*/
       border-radius: 8px;
       overflow: hidden;
       text-align: center;
@@ -40,16 +44,47 @@
     }
     .status {
       font-size: 0.9em;
-      color: #9e9e9e;
+      color: white;
     }
-    .Alive { color: #55cc44; }
-    .Dead { color: #d63d2e; }
+    .Alive { background-color: #55cc44; }
+    .Dead { background-color: #d63d2e; }
+    .centrar{
+      display: flex;
+      justify-content: space-evenly;
+    }
+    .boton{
+      font-size: 1.5em;
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      border: 2px black solid;
+      cursor: pointer;
+    }
+    #btn-vivos{
+      background-color: #55cc44;
+    }
+    #btn-muertos{
+      background-color: #d63d2e;
+    }
+    #btn-desc{
+      background-color: #3c3e44;
+    }
+    #btn-todos{
+      background-color: blue;
+    }
   </style>
 </head>
 <body>
+  <div class="centrar">
+    <h1>Personajes de Rick and Morty (GraphQL)</h1>
+  </div>
 
-  <h1>Personajes de Rick and Morty (GraphQL)</h1>
-  
+  <div class="centrar" style="margin-bottom: 20px;">
+    <button class="boton" id="btn-vivos" onclick="vivos()">Vivos</button>
+    <button class="boton" id="btn-muertos" onclick="muestos()">Muertos</button>
+    <button class="boton" id="btn-desc" onclick="desc()">Desconocido</button>
+    <button class="boton" id="btn-todos" onclick="todos()">Todos</button>
+  </div>
   <div id="contenedor-personajes" class="grid"></div>
 
   <script>
@@ -66,7 +101,8 @@
         }
       }
     `;
-
+    var todos = true;
+    var dibujar = "";
     async function pintarPersonajes() {
       try {
         const respuesta = await fetch(URL_API, {
@@ -83,22 +119,63 @@
 
         // Recorremos el array de personajes y creamos el HTML para cada uno
         personajes.forEach(personaje => {
+          if (personaje.status == "Alive") {
+            var statusColor = "#55cc44";
+          }else if(personaje.status == "Dead"){
+            var statusColor = "#d63d2e";
+          }else{
+            var statusColor = "#3c3e44";
+          }
           const tarjetaHTML = `
-            <div class="tarjeta">
+            <div class="tarjeta" style="background-color:${statusColor}">
               <img src="${personaje.image}" alt="${personaje.name}">
               <div class="info">
                 <h3>${personaje.name}</h3>
-                <p class="status">Estado: <span class="${personaje.status}">${personaje.status}</span></p>
+                <p class="status">Estado: <span>${personaje.status}</span></p>
               </div>
             </div>
           `;
           // Lo agregamos al contenedor
-          contenedor.innerHTML += tarjetaHTML;
+          if (dibujar == `${personaje.status}` || todos) {
+            contenedor.innerHTML += tarjetaHTML;  
+          }          
         });
 
       } catch (error) {
         console.error("Error al pintar los datos:", error);
       }
+    }
+
+    function vivos() {
+      dibujar = "Alive";
+      todos = false;
+      const contenedor = document.getElementById("contenedor-personajes");
+      contenedor.innerHTML = "";
+      pintarPersonajes();  
+    }
+
+    function muertos() {
+      dibujar = "Dead";
+      todos = false;
+      const contenedor = document.getElementById("contenedor-personajes");
+      contenedor.innerHTML = "";
+      pintarPersonajes();  
+    }
+
+    function desc() {
+      dibujar = "Unknown";
+      todos = false;
+      const contenedor = document.getElementById("contenedor-personajes");
+      contenedor.innerHTML = "";
+      pintarPersonajes();  
+    }
+
+    function todos() {
+      dibujar = "todos";
+      todos = true;
+      const contenedor = document.getElementById("contenedor-personajes");
+      contenedor.innerHTML = "";
+      pintarPersonajes();  
     }
 
     // Llamamos a la función al cargar la página
