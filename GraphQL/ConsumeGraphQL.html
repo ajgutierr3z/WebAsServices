@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rick and Morty - GraphQL</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #202329;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #00ff97;
+    }
+
+    /* Estilos para los botones de filtro */
+    .filtros {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .btn-filtro {
+      background-color: #3c3e44;
+      color: white;
+      border: 2px solid #00ff97;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .btn-filtro:hover {
+      background-color: #00ff97;
+      color: #202329;
+      transform: scale(1.05);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .tarjeta {
+      background-color: #3c3e44;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+    
+    .tarjeta:hover {
+      transform: translateY(-5px); 
+    }
+    
+    .tarjeta img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .tarjeta .info {
+      padding: 15px;
+    }
+    
+    .tarjeta h3 {
+      margin: 0 0 10px 0;
+    }
+    
+    .status {
+      font-size: 0.9em;
+      color: #9e9e9e;
+      margin: 0;
+      font-weight: bold;
+    }
+    
+    .Alive { color: #55cc44; }
+    .Dead { color: #d63d2e; }
+    .unknown { color: #9e9e9e; }
+  </style>
+</head>
+<body>
+
+  <h1>Personajes de Rick and Morty (GraphQL)</h1>
+
+  <div class="filtros">
+    <button class="btn-filtro" onclick="filtrarPersonajes('Todos')">Todos</button>
+    <button class="btn-filtro" onclick="filtrarPersonajes('Alive')">Vivos</button>
+    <button class="btn-filtro" onclick="filtrarPersonajes('Dead')">Muertos</button>
+    <button class="btn-filtro" onclick="filtrarPersonajes('unknown')">Desconocidos</button>
+  </div>
+  
+  <div id="contenedor-personajes" class="grid"></div>
+
+  <script>
+    const URL_API = "https://rickandmortyapi.com/graphql";
+    const QUERY_PERSONAJES = `
+      query {
+        characters(page: 1) {
+          results {
+            id
+            name
+            status
+            image
+          }
+        }
+      }
+    `;
+
+    // Variable global para guardar los personajes y no hacer fetch cada vez que filtramos
+    let todosLosPersonajes = [];
+
+    // 1. Función para pintar el HTML basado en un arreglo de datos
+    function renderizarTarjetas(personajesParaMostrar) {
+      const contenedor = document.getElementById("contenedor-personajes");
+      
+      if (personajesParaMostrar.length === 0) {
+        contenedor.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No se encontraron personajes.</p>";
+        return;
+      }
+
+      const tarjetasHTML = personajesParaMostrar.map(personaje => `
+        <div class="tarjeta">
+          <img src="${personaje.image}" alt="${personaje.name}">
+          <div class="info">
+            <h3>${personaje.name}</h3>
+            <p class="status">Estado: <span class="${personaje.status}">${personaje.status}</span></p>
+          </div>
+        </div>
+      `).join("");
+
+      contenedor.innerHTML = tarjetasHTML;
+    }
+
+    // 2. Función para obtener los datos de la API (solo se ejecuta una vez al inicio)
+    async function obtenerDatos() {
+      try {
+        const respuesta = await fetch(URL_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: QUERY_PERSONAJES }),
+        });
+
+        const resultado = await respuesta.json();
+        
+        // Guardamos los datos en nuestra variable global
+        todosLosPersonajes = resultado.data.characters.results;
+        
+        // Pintamos todos los personajes inicialmente
+        renderizarTarjetas(todosLosPersonajes);
+
+      } catch (error) {
+        console.error("Hubo un error al traer los datos:", error);
+      }
+    }
+
+    // 3. Función que se ejecuta al hacer clic en los botones
+    function filtrarPersonajes(estadoBuscado) {
+      if (estadoBuscado === 'Todos') {
+        renderizarTarjetas(todosLosPersonajes);
+      } else {
+        // Filtramos el arreglo original buscando coincidencias en el estado
+        const filtrados = todosLosPersonajes.filter(personaje => personaje.status === estadoBuscado);
+        renderizarTarjetas(filtrados);
+      }
+    }
+
+    // Ejecutamos la petición inicial al cargar la página
+    obtenerDatos();
+  </script>
+</body>
+</html>
