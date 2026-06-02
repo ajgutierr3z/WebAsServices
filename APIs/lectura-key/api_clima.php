@@ -1,6 +1,6 @@
 <?php
 // Requerimos las constantes desde la raíz (subiendo un nivel con ../)
-require_once '../config.php';
+require_once '/config.php';
 
 // Le decimos al navegador que devolveremos JSON
 header('Content-Type: application/json');
