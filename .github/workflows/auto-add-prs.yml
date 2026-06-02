@@ -1,0 +1,38 @@
+name: Auto-agregar PRs a Backlog
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener ID de la columna Backlog
+        id: get-column
+        run: |
+          COLUMN_ID=$(gh api graphql -f query='
+            query($project: String!) {
+              organization(login: "ajgutierr3z") {
+                projectV2(number: 1) {
+                  field(name: "Status") {
+                    ... on ProjectV2SingleSelectField {
+                      options {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }' -F project="WebAsServices" --jq '.data.organization.projectV2.field.options[] | select(.name=="Backlog") | .id')
+          echo "column_id=$COLUMN_ID" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Agregar PR al proyecto en columna Backlog
+        uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: https://github.com/ajgutierr3z/WebAsServices/projects/2
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          column-id: ${{ steps.get-column.outputs.column_id }}
