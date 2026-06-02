@@ -1,6 +1,6 @@
 <?php
 // 1. Cargar las credenciales de forma segura
-require_once 'config.php';
+require_once '../config.php';
 
 // 2. Indicar que la respuesta será un JSON
 header('Content-Type: application/json');
