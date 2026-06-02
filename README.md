@@ -126,7 +126,7 @@ Usamos labels para clasificar los PRs:
 - 🟢 `entrega-completa` - Entregas que cumplen todos los requisitos
 - 🟡 `needs-feedback` - Esperando revisión del profesor
 - 🔵 `feedback-dado` - Ya se proporcionó retroalimentación
-- 🟣 `ejemplo-libro` - Casos destacados para el libro
+- 🟣 `ejemplo-destacado` - Casos destacados
 
 ### 📊 Dashboard visual
 
