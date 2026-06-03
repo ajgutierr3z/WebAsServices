@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rick and Morty - GraphQL</title>
   <style>
+<<<<<<< HEAD
     * {
       box-sizing: border-box;
     }
     
+=======
+    /* Un CSS rápido para que se vea genial */
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
     body {
       background-color: #202329;
       color: white;
@@ -16,11 +20,15 @@
       margin: 0;
       padding: 20px;
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
     h1 {
       text-align: center;
       color: #00ff97;
     }
+<<<<<<< HEAD
 
     /* Estilos para los botones de filtro */
     .filtros {
@@ -47,6 +55,8 @@
       transform: scale(1.05);
     }
     
+=======
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -54,13 +64,17 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
     .tarjeta {
       background-color: #3c3e44;
       border-radius: 8px;
       overflow: hidden;
       text-align: center;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+<<<<<<< HEAD
       transition: transform 0.2s ease;
     }
     
@@ -92,11 +106,28 @@
     .Alive { color: #55cc44; }
     .Dead { color: #d63d2e; }
     .unknown { color: #9e9e9e; }
+=======
+    }
+    .tarjeta img {
+      width: 100%;
+      height: auto;
+    }
+    .tarjeta info {
+      padding: 10px;
+    }
+    .status {
+      font-size: 0.9em;
+      color: #9e9e9e;
+    }
+    .Alive { color: #55cc44; }
+    .Dead { color: #d63d2e; }
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
   </style>
 </head>
 <body>
 
   <h1>Personajes de Rick and Morty (GraphQL)</h1>
+<<<<<<< HEAD
 
   <div class="filtros">
     <button class="btn-filtro" onclick="filtrarPersonajes('Todos')">Todos</button>
@@ -104,6 +135,8 @@
     <button class="btn-filtro" onclick="filtrarPersonajes('Dead')">Muertos</button>
     <button class="btn-filtro" onclick="filtrarPersonajes('unknown')">Desconocidos</button>
   </div>
+=======
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
   
   <div id="contenedor-personajes" class="grid"></div>
 
@@ -122,6 +155,7 @@
       }
     `;
 
+<<<<<<< HEAD
     // Variable global para guardar los personajes y no hacer fetch cada vez que filtramos
     let todosLosPersonajes = [];
 
@@ -149,6 +183,9 @@
 
     // 2. Función para obtener los datos de la API (solo se ejecuta una vez al inicio)
     async function obtenerDatos() {
+=======
+    async function pintarPersonajes() {
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
       try {
         const respuesta = await fetch(URL_API, {
           method: "POST",
@@ -157,6 +194,7 @@
         });
 
         const resultado = await respuesta.json();
+<<<<<<< HEAD
         
         // Guardamos los datos en nuestra variable global
         todosLosPersonajes = resultado.data.characters.results;
@@ -182,6 +220,35 @@
 
     // Ejecutamos la petición inicial al cargar la página
     obtenerDatos();
+=======
+        const personajes = resultado.data.characters.results;
+
+        // Seleccionamos el contenedor HTML
+        const contenedor = document.getElementById("contenedor-personajes");
+
+        // Recorremos el array de personajes y creamos el HTML para cada uno
+        personajes.forEach(personaje => {
+          const tarjetaHTML = `
+            <div class="tarjeta">
+              <img src="${personaje.image}" alt="${personaje.name}">
+              <div class="info">
+                <h3>${personaje.name}</h3>
+                <p class="status">Estado: <span class="${personaje.status}">${personaje.status}</span></p>
+              </div>
+            </div>
+          `;
+          // Lo agregamos al contenedor
+          contenedor.innerHTML += tarjetaHTML;
+        });
+
+      } catch (error) {
+        console.error("Error al pintar los datos:", error);
+      }
+    }
+
+    // Llamamos a la función al cargar la página
+    pintarPersonajes();
+>>>>>>> a2ca61ee2d8b76828a8bb0cb293bab5d014640b1
   </script>
 </body>
 </html>
