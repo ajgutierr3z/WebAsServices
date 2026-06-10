@@ -50,8 +50,38 @@ $mutationType = new ObjectType([
                 $stmt->execute(['titulo' => $args['titulo']]);
                 return "Tarea creada exitosamente vía GraphQL";
             }
+        ],
+    
+//MI CODIGO -I-
+    'actualizarTarea' => [
+            'type' => Type::string(),
+            'args' => [
+                'id' => Type::nonNull(Type::int()),
+                'titulo' => Type::nonNull(Type::string())
+            ],
+            'resolve' => function ($root, $args) use ($pdo) {
+                $stmt = $pdo->prepare("UPDATE tareas SET titulo = :titulo WHERE id = :id");
+                $stmt->execute([
+                    'titulo' => $args['titulo'],
+                    'id' => $args['id']
+                ]);
+                return "Tarea actualizada exitosamente vía GraphQL";
+            }
+        ],
+        
+        'eliminarTarea' => [
+            'type' => Type::string(),
+            'args' => [
+                'id' => Type::nonNull(Type::int())
+            ],
+            'resolve' => function ($root, $args) use ($pdo) {
+                $stmt = $pdo->prepare("DELETE FROM tareas WHERE id = :id");
+                $stmt->execute(['id' => $args['id']]);
+                return "Tarea eliminada exitosamente vía GraphQL";
+            }
         ]
     ]
+        //MI CODIGO -F-
 ]);
 
 // 4. Ejecutar el Schema
