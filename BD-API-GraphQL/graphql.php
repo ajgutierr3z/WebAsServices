@@ -35,7 +35,7 @@ $queryType = new ObjectType([
     ]
 ]);
 
-// 3. Definir Mutation (Creación)
+// 3. Definir Mutation (Creación, Eliminación y Actualización)
 $mutationType = new ObjectType([
     'name' => 'Mutation',
     'fields' => [
@@ -49,6 +49,34 @@ $mutationType = new ObjectType([
                 $stmt = $pdo->prepare("INSERT INTO tareas (titulo) VALUES (:titulo)");
                 $stmt->execute(['titulo' => $args['titulo']]);
                 return "Tarea creada exitosamente vía GraphQL";
+            }
+        ],
+        'eliminarTarea' => [
+            'type' => Type::string(),
+            'args' => [
+                'id' => Type::nonNull(Type::int())
+            ],
+            // El RESOLVER para eliminar
+            'resolve' => function ($root, $args) use ($pdo) {
+                $stmt = $pdo->prepare("DELETE FROM tareas WHERE id = :id");
+                $stmt->execute(['id' => $args['id']]);
+                return "Tarea eliminada vía GraphQL";
+            }
+        ],
+        'actualizarTarea' => [
+            'type' => Type::string(),
+            'args' => [
+                'id' => Type::nonNull(Type::int()),
+                'titulo' => Type::nonNull(Type::string())
+            ],
+            // El RESOLVER para actualizar
+            'resolve' => function ($root, $args) use ($pdo) {
+                $stmt = $pdo->prepare("UPDATE tareas SET titulo = :titulo WHERE id = :id");
+                $stmt->execute([
+                    'titulo' => $args['titulo'],
+                    'id' => $args['id']
+                ]);
+                return "Tarea actualizada vía GraphQL";
             }
         ]
     ]

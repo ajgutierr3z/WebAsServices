@@ -24,4 +24,33 @@ elseif ($metodo === 'POST') {
         echo json_encode(["error" => "El título es obligatorio"]);
     }
 }
+//eliminar
+elseif ($metodo === 'DELETE') {
+    $id = $_GET['id'] ?? null;
+    if ($id) {
+        $stmt = $pdo->prepare("DELETE FROM tareas WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        echo json_encode(["mensaje" => "Tarea eliminada exitosamente"]);
+    } else {
+        http_response_code(400);
+        echo json_encode(["error" => "ID de tarea requerido"]);
+    }
+}
+
+// actualizar
+elseif ($metodo === 'PUT') {
+    $data = json_decode(file_get_contents("php://input"), true);
+    
+    if(!empty($data['id']) && !empty($data['titulo'])) {
+        $stmt = $pdo->prepare("UPDATE tareas SET titulo = :titulo WHERE id = :id");
+        $stmt->execute([
+            'titulo' => $data['titulo'],
+            'id' => $data['id']
+        ]);
+        echo json_encode(["mensaje" => "Tarea actualizada exitosamente"]);
+    } else {
+        http_response_code(400); // Bad Request
+        echo json_encode(["error" => "El ID y el título son obligatorios"]);
+    }
+}
 ?>

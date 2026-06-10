@@ -1,7 +1,7 @@
 <?php
 // configuracion 
 $host = 'localhost';
-$db   = 'mi_app';
+$db   = 'app';
 $user = 'root';
 $pass = ''; // Tu contraseña
 
