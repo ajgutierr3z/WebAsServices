@@ -4,7 +4,7 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Total de PRs | 17 |
-| PRs abiertos | 5 |
-| PRs cerrados | 12 |
-| Última actualización | 2026-06-07 02:38:25 |
+| Total de PRs | 22 |
+| PRs abiertos | 0 |
+| PRs cerrados | 22 |
+| Última actualización | 2026-06-14 02:43:46 |
