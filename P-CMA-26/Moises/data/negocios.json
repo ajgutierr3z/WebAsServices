@@ -1,0 +1,22 @@
+[
+  {
+    "name": "gprint",
+    "description": "uniformes deportivos",
+    "category": "uniformes",
+    "address": "plaza mega",
+    "phone": "9922400121",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0PqYkuqcm_vt-GzOH3OrUL8bjWbQD2NPG_b4flc_mYjdLbDtoetpJeXo&s=10",
+    "id": "local-89196d93-bc18-43c9-b7cb-941eb105823f",
+    "source": "Local"
+  },
+  {
+    "name": "takozapata",
+    "description": "taqueria ",
+    "category": "taqueria",
+    "address": "por atasta ",
+    "phone": "99431231235",
+    "imageUrl": "https://imgs.search.brave.com/JEzxaxeDVRAPmprcudrA5HTir_UtjNN6fTkanoXYKL8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bXV5ZGVsaXNoLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/My8wNS9yZWNpcGUt/YWwtcGFzdG9yLXRh/Y29zLmpwZw",
+    "id": "local-0d3c7d39-d83d-444c-8dc6-f1ea2cb4e543",
+    "source": "Local"
+  }
+]
