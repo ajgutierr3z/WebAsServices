@@ -1,0 +1,65 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; 
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+
+.btn-principal {
+    background-color: #0c2340;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-principal:hover {
+    background-color: #1d70b8;
+}
+
+/* Tarjetas blancas para los formularios */
+.tarjeta {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Fondo para Administrador */
+body.fondo-administrador, body.fondo-admin {
+    background: url('../img/admin.jpeg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Fondo para Empresas Inversoras */
+body.fondo-empresa {
+    background: url('../img/fondo_empresa.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Fondo para Investigadores Universitarios */
+body.fondo-investigador {
+    background: url('../img/investigado.jpeg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Fondo por defecto (para login/registro) */
+body.fondo-invitado {
+    background-color: #f4f6f9;
+}
+
+
+.tarjeta-dash, .tarjeta-proyecto, .panel-filtros, .panel-info, .tarjeta {
+    background-color: rgba(255, 255, 255, 0.95) !important; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    backdrop-filter: blur(4px);
+}
