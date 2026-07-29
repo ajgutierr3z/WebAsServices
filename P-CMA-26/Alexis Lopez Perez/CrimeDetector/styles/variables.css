@@ -1,0 +1,9 @@
+:root{
+    --marginTituloHeader: 0.67em;
+    --heightTituloHeader: calc(2em + var(--marginTituloHeader)*2);    
+    --colorBotonIndex: #1E11D6;
+    --colorRojoHeader: #D72011;
+    --colorAmarillo: #D6B711;
+    --fondoMensajeError: #F88379;
+    --fondoMensajeStatus: #88E788;
+}
