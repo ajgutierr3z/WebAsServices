@@ -65,6 +65,9 @@ $nombreSala = $materia . "_" . $idAleatorio;
     <div class="controles">
         <button id="btn-silenciar">Silenciar mi Micrófono desde la App</button>
     </div>
+    <div class="controles">
+        <button id="btn-camara">Apagar mi Camara desde la App</button>
+    </div>
 
     <script src="https://meet.jit.si/external_api.js"></script>
 
@@ -93,6 +96,12 @@ $nombreSala = $materia . "_" . $idAleatorio;
             // Le damos una orden a la plataforma mediante su método executeCommand
             api.executeCommand('toggleAudio');
             alert("Has alternado tu micrófono usando un botón de TU propia página web.");
+        });
+
+        document.getElementById('btn-camara').addEventListener('click', function() {
+            // Le damos una orden a la plataforma mediante su método executeCommand
+            api.executeCommand('toggleVideo');
+            alert("Has alternado tu camara usando un botón de TU propia página web.");
         });
     </script>
 

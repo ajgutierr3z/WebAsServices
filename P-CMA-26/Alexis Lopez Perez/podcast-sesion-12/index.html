@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre id="h1"></pre>
+    <h1 id="secret-banner"></h1>
+</body>
+
+<script>
+    fetch('https://api.audius.co/v1/tracks/search?query=el-código-en-el-ruido')
+        .then(res => res.json())
+        .then(data => document.getElementById('h1').innerText = JSON.stringify(data, null, 2))    
+        //.then(data => console.log(JSON.stringify(data, null, 2)))    
+</script>
+</html>
