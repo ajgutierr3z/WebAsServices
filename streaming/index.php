@@ -64,6 +64,8 @@ $nombreSala = $materia . "_" . $idAleatorio;
 
     <div class="controles">
         <button id="btn-silenciar">Silenciar mi Micrófono desde la App</button>
+        <!-- Agrega este nuevo botón para la cámara -->
+        <button id="btn-camara" style="background-color: #dc3545;">Apagar / Encender Cámara</button>
     </div>
 
     <script src="https://meet.jit.si/external_api.js"></script>
@@ -78,21 +80,28 @@ $nombreSala = $materia . "_" . $idAleatorio;
             roomName: salaGenerada,
             width: '100%',
             height: '100%',
-            parentNode: document.querySelector('#jitsi-container'), // ¿Dónde se va a dibujar?
+            parentNode: document.querySelector('#jitsi-container'),
+            configOverwrite: { startWithAudioMuted: true },
             interfaceConfigOverwrite: {
-                // Podemos ocultar botones del reproductor de Jitsi
                 SHOW_JITSI_WATERMARK: false
             }
-        };
+        };  
 
         // ¡Iniciamos la plataforma de streaming!
         const api = new JitsiMeetExternalAPI(domain, options);
 
-        // EXTRA: Demostración de interacción entre nuestra App y la API
+       // EXTRA: Demostración de interacción entre nuestra App y la API
         document.getElementById('btn-silenciar').addEventListener('click', function() {
             // Le damos una orden a la plataforma mediante su método executeCommand
             api.executeCommand('toggleAudio');
             alert("Has alternado tu micrófono usando un botón de TU propia página web.");
+        });
+
+        // NUEVO: Lógica para el botón de la cámara
+        document.getElementById('btn-camara').addEventListener('click', function() {
+            // Le damos la orden a Jitsi de alternar el estado del video
+            api.executeCommand('toggleVideo');
+            alert("Has alternado tu camara usando un botón de TU propia página web.");
         });
     </script>
 
