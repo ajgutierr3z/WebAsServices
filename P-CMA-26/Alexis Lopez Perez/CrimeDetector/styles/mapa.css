@@ -1,0 +1,494 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.mapa-page-container {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 60px);
+}
+
+#map {
+    width: 100%;
+    height: calc(100vh - 60px);
+    z-index: 1;
+}
+
+/* Barra flotante de instrucciones */
+.mapa-control-bar {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.instruccion-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.instruccion-item svg {
+    color: #dc2626;
+    flex-shrink: 0;
+}
+
+.instruccion-divider {
+    width: 1px;
+    height: 18px;
+    background-color: #e5e7eb;
+}
+
+/* Estilo para la Leyenda flotante */
+.leyenda-mapa {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e5e7eb;
+    font-family: inherit;
+    font-size: 0.8rem;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+.leyenda-mapa h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4b5563;
+}
+
+.leyenda-mapa div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.leyenda-mapa span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.popup-reporte h4 {
+    margin: 0 0 6px 0;
+    color: #111827;
+    font-size: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 6px;
+}
+
+.popup-crimenes {
+    color: #dc2626;
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+/* Modal sobrepuesto en el mapa */
+.modal-mapa {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido-mapa {
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.grupo-coordenadas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.grupo-coordenadas input {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.campo {
+    margin-bottom: 12px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.campo input[type="text"],
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1fr solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.lista-checkboxes-crimen {
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.item-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.acciones-form {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-primario {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secundario {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* --- TARJETA PRINCIPAL DEL MODAL --- */
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* --- HEADER DEL MODAL --- */
+.modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.modal-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.btn-cerrar-modal {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-cerrar-modal:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+/* --- CUERPO Y FORMULARIO (SCROLLABLE) --- */
+.form-reporte-mapa {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.modal-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --- CAMPOS Y LABELS --- */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo label,
+.campo-coordenada label,
+.label-seccion {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.modal-body input[type="text"],
+.modal-body select,
+.modal-body textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.modal-body input[type="text"]:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.modal-body textarea {
+    resize: vertical;
+    min-height: 75px;
+}
+
+/* --- COORDENADAS EN PARALELO --- */
+.grupo-coordenadas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background-color: #f1f5f9;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.campo-coordenada {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.campo-coordenada input {
+    background-color: #ffffff !important;
+    color: #64748b;
+    font-family: monospace;
+    font-size: 0.85rem;
+    border-color: #e2e8f0;
+}
+
+/* --- CHIPS PARA TIPOS DE CRIMEN --- */
+.grid-checkboxes-crimen {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 4px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+
+.item-chip {
+    cursor: pointer;
+    user-select: none;
+}
+
+.item-chip input[type="checkbox"] {
+    display: none; /* Ocultamos el checkbox feo nativo */
+}
+
+.chip-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.15s ease;
+}
+
+.chip-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: 2px solid #cbd5e1;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.item-chip:hover .chip-content {
+    border-color: #94a3b8;
+    background-color: #f8fafc;
+}
+
+/* Estado Checkeado */
+.item-chip input[type="checkbox"]:checked + .chip-content {
+    background-color: #ef444410;
+    border-color: #ef4444;
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.item-chip input[type="checkbox"]:checked + .chip-content .chip-indicator {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+
+/* --- FOOTER / BOTONES --- */
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #f1f5f9;
+    background-color: #f8fafc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-cancelar {
+    background-color: #ffffff;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-cancelar:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.btn-guardar {
+    background-color: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+.btn-guardar:hover {
+    background-color: #b91c1c;
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
